@@ -51,12 +51,16 @@ DATA : gt_modified_rows like table of gt_sflight.
 
 
 이벤트 핸들러 o에 등록
-
-i에서 save 누를시 이벤트 호출
-
-update_database perform 생성
-
 ```abap
-modify sflight from table gt_modified_rows.
+  DATA : EVENT_RECEIVER TYPE REF TO LCL_EVENT_RECEIVER.
+
+  CREATE OBJECT EVENT_RECEIVER.
+
+  SET HANDLER EVENT_RECEIVER->HANDLE_DATA_CHANGED  FOR G_GRID.
+
+  CALL METHOD G_GRID->REGISTER_EDIT_EVENT
+    EXPORTING
+      I_EVENT_ID = CL_GUI_ALV_GRID=>MC_EVT_MODIFIED.   " Event ID
 ```
+
 
